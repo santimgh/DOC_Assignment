@@ -46,7 +46,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build Docker Image
-        run: docker build -t santimiguel/spring-image:latest .
+        run: docker build -t spring-image:latest .
 
       - name: Log in to Docker Hub
         run: echo ${{ secrets.DOCKER_HUB_TOKEN }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin

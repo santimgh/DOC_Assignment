@@ -21,8 +21,13 @@ jobs:
       - name: Check path
         run: pwd
 
-      - name: Change to k8s directory
-        run: cd ../src/k8s
+      - name: Build image
+        run: |
+          export SHELL=/bin/bash
+          eval $(minikube -p minikube docker-env)
+          docker build -f ./Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/spring-image:latest .
+          echo -n "Verifying images: "
+          docker images
 
       - name: Deploy to Minikube
         run: |

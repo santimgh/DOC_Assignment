@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class Controller {
 
+    private int id;
+
     @GetMapping("/")
     public String getPage(){
         return "welcome";

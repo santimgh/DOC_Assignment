@@ -20,8 +20,8 @@ jobs:
 
       - name: Deploy to Minikube
         run: |
-          kubectl apply -f src/k8s/deployment.yaml
-          kubectl apply -f src/k8s/service.yaml
+          kubectl apply -f deployment.yaml
+          kubectl apply -f service.yaml
           kubectl wait --for=condition=Ready pod -l app=spring-app
 
       - name: Test service URLs

@@ -19,7 +19,7 @@ jobs:
         run: kubectl get pods -A
 
       - name: Change to k8s directory
-        run: cd src/k8s
+        run: cd Assignment4/src/k8s
 
       - name: Deploy to Minikube
         run: |

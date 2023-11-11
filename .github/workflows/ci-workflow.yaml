@@ -51,7 +51,8 @@ jobs:
       - name: Build Docker Image
         run: docker build -t santimiguel/spring-image:latest .
 
-      - name: Push Docker Image
-        run: |
-          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-          docker push santimiguel/spring-image:latest
+      - name: Log in to Docker Hub
+        run: echo ${{ secrets.DOCKER_HUB_TOKEN }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+
+      - name: Push Docker image to Docker Hub
+        run: docker push spring-image:latest

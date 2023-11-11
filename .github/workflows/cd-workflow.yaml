@@ -1,0 +1,42 @@
+name: CD - Deploy to Minikube using Github Actions
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  job1:
+    name: Build and Deploy to Minikube
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Start Minikube
+        id: minikube
+        uses: medyagh/setup-minikube@latest
+
+      - name: Try the cluster!
+        run: kubectl get pods -A
+
+      - name: Deploy to Minikube
+        run: |
+          kubectl apply -f Assignment/src/k8s/deployment.yaml
+          kubectl apply -f Assignment/src/k8s/service.yaml
+          kubectl wait --for=condition=Ready pod -l app=spring-app
+
+      - name: Test service URLs
+        run: |
+          echo "SPRING_APP_URL=$(minikube service spring-app-service --url)"
+          echo "POSTGRES_URL=$(minikube service postgres-service --url)"
+          kubectl port-forward service/spring-app-service 8080:8080 &> /dev/null &
+          kubectl port-forward service/postgres-service 5432:5432 &> /dev/null &
+          sleep 5
+
+      - name: Test spring-app service
+        run: |
+          curl -i $SPRING_APP_URL
+
+      - name: Cleanup
+        run: |
+          eval $(minikube docker-env -u)
+          minikube delete

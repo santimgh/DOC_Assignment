@@ -1,4 +1,4 @@
-name: CD - Deploy to Minikube using Github Actions
+name: Continuous deployment
 
 on:
   push:
@@ -17,6 +17,9 @@ jobs:
 
       - name: Try the cluster!
         run: kubectl get pods -A
+
+      - name: Enter the k8s folder from Ubuntu
+        run: cd /mnt/c/Users/34654/Desktop/VIA\ Semesters/4th\ Semester/DOC/Assignment4/Assignment4/src/k8s
 
       - name: Deploy to Minikube
         run: |
